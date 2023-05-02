@@ -5,10 +5,11 @@ import random
 
 # ask user to enter the pokemon and stores it as pokemon_name.
 pokemon1_name = input("Enter the name of a Pokémon (without caps): ")
+print('--------------------------------------------------------------------------------------------')
 
 # url to acces the pokemon data, f is to be able to insert the pokemon_name to the url
 url = f"https://pokeapi.co/api/v2/pokemon/{pokemon1_name}"
-
+print(f'{pokemon1_name} stats:')
 # Send a GET(get the info) request to the PokeAPI using the URL, and store the response in the "response" variable.
 response = requests.get(url)
 
@@ -22,21 +23,6 @@ if response.status_code == 200:
     weight = data["weight"]
     # Print out the name of the Pokémon entered by the user along with its HP and weight using an f-string.
     print(f"{pokemon1_name}'s HP is {hp} and its weight is {weight}.")
-else:
-    # If the response status code is not equal to 200, print an error message.
-    print("Could not retrieve information about the Pokémon.")
-
-#2a Count 
-
-# Send a GET request to the Pokemon API's Pokemon resource and store the response in the "response" variable
-response = requests.get("https://pokeapi.co/api/v2/pokemon/")
-
-# Check if the response status code is equal to 200 (successful)
-if response.status_code == 200:
-    # Convert the response to a Python object and extract the "count" attribute, which tells us how many Pokemon exist
-    data = response.json()
-    count = data["count"]
-    print(f"There are {count} Pokémon in total.")
 else:
     # If the response status code is not equal to 200, print an error message.
     print("Could not retrieve information about the Pokémon.")
@@ -65,8 +51,28 @@ else:
     # If the response status code is not equal to 200, print an error message.
     print("Could not get information of the Pokémon.")
 
-#2c Healthier
 
+
+print('-----------------------------------------------------------------------------------------------------')
+
+#2a Count 
+print('Pokemon count')
+# Send a GET request to the Pokemon API's Pokemon resource and store the response in the "response" variable
+response = requests.get("https://pokeapi.co/api/v2/pokemon/")
+# Check if the response status code is equal to 200 (successful)
+if response.status_code == 200:
+    # Convert the response to a Python object and extract the "count" attribute, which tells us how many Pokemon exist
+    data = response.json()
+    count = data["count"]
+    print(f"There are {count} Pokémon in total.")
+else:
+    # If the response status code is not equal to 200, print an error message.
+    print("Could not retrieve information about the Pokémon.")
+
+print('----------------------------------------------------------------------------------------------')
+
+#2c Healthier
+print('HP fight')
 # Get a random Pokemon name
 random_pokemon_id = random.randint(1, count)
 
@@ -93,6 +99,8 @@ if response.status_code == 200:
          print(f"both {pokemon1_name} and {pokemon_name} have the same hp {hp}")
 else:
     print("Could not retrieve information about the Pokémon.")
+
+print('--------------------------------------------------------------------------------------')
 
 
 #3a how many pokemons weight more
