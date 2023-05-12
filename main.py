@@ -119,34 +119,35 @@ if response.status_code == 200:
     print(f"{pokemon1_name}'s weight is: {pokemon1_weight}")
     print(f"checking for how many pokemons are heavier than {pokemon1_name}, please wait a minute :)")
     
-    offset = 0
-    limit = count
-    more_pokemons = True
+    offset = 0 #is set to 0, which means the program will start fetching data from the first item in a list.
+    limit = count #the program will retrieve data up to count number of items from the list.
+    more_pokemons = True #its true so that it loops and fetches more pokemon
 
+    # Loop until all pokemon have been searched
     while more_pokemons:
-        response = requests.get(f"https://pokeapi.co/api/v2/pokemon/?offset={offset}&limit={limit}")
-        if response.status_code == 200:
+        response = requests.get(f"https://pokeapi.co/api/v2/pokemon/?offset={offset}&limit={limit}")   # Send a request to the PokeAPI with the current offset and limit
+        if response.status_code == 200:  # If the request is successful, get the list of pokemon from the response
             pokemon_list_data = response.json()
             pokemon_list = pokemon_list_data["results"]
             count_heavier = 0
-
+  # Loop through each pokemon in the list
             for pokemon in pokemon_list:
-                response = requests.get(pokemon["url"])
-                if response.status_code == 200:
+                response = requests.get(pokemon["url"])   # Send a request to the PokeAPI for details about the current pokemon
+                if response.status_code == 200:  # If the request is successful, get the pokemon's name and weight
                     pokemon_data = response.json()
                     pokemon_name = pokemon_data["name"]
                     pokemon_weight = pokemon_data["weight"]
-                    
+                       # If the pokemon's weight is greater than the first pokemon's weight, increment the count_heavier variable
                     if pokemon_weight > pokemon1_weight:
                         count_heavier = count_heavier + 1
                 else:
                     print(f"Failed to retrieve data for {pokemon['name']}")
 
-            offset = offset + limit
+            offset = offset + limit # adding a limit to the offset
 
             if offset >= pokemon_list_data["count"]:
                 more_pokemons = False
-        else:
+        else: 
             print("Failed to retrieve Pokémon list")
     print(f'In total there are {count_heavier} pokemons heavier than {pokemon1_name}')
 else:
